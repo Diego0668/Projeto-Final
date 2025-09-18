@@ -5,32 +5,41 @@
 
 
 void limpartela(){
-    sleep(4);
+    sleep(5);
     getchar();
 	system("cls");
 
 }
   
-void mostrarDados(char nome[20],char endereco[40],char senha_digitada[]){
-    char nomeDado[20];
-    char senhaDado[20];
-    char enderecoDado[20];
-    char emailDado[20];
-
-
+void mostrarDados(char nome[20],char endereco[40],char senha_digitada[20],char email[20]){
     
-    printf("Nome %s\n", nomeDado);
-    printf("Email %s\n", emailDado);
-    printf("Senha: %s \n", senhaDado);
-    printf("Endereco: %s \n" , enderecoDado);
+    printf("\n---------- Meus Dados ----------\n");
+    printf("Nome %s\n", nome);
+    printf("Email %s\n", email);
+    printf("Senha: %s \n", senha_digitada);
+    printf("Endereco: %s \n" , endereco);
+    printf("------------------------------\n");
+
 }
+
+void mostrarProd(char lista_prod[10][10]){
+
+
+    for (int i = 0; i < 10; i++) { 
+        for (int j = 0; j < 10; j++) { 
+            
+            printf("%c,\n", lista_prod[i][j]);
+        }
+        
+}}
  
 
 int main(){
 
-
+    char lista_prod [10] [10] = {"Fone","Mouse","Pen Drive" , "Teclado" , "Camisa"};
     char nome[20] = "diego";
     char endereco[40] ="Cuiaba";
+    char email[20] ="diego@gmail.com";
 
 
     char usuario_correto[10] = "admin"; 
@@ -38,14 +47,13 @@ int main(){
 
     char senha_digitada[20];
     char usuario_digitado[20];
- mostrarDados(nome,endereco,senha_digitada);
     
 
    
 
 
-    
-    int consulta,cadastrar;
+    int i;
+    int consulta;
 
     do {
         printf("Digite seu usuario:\n");
@@ -68,14 +76,23 @@ int main(){
         do{
 
             printf("====================================\n");
-            printf("Digite a consulta que deseja fazer \n[1] Meus dados \n[2] Minhas compras\n[3] Lista de produto \n[4] Carrinho\n[5] Pesquisar\n");
+            printf("Digite a consulta que deseja fazer \n[1] Meus dados \n[2] Minhas compras\n[3] Lista de produto \n[4] Carrinho\n[5] Pesquisar\n[0] Sair\n");
             printf("====================================\n");
-
             scanf("%d" , &consulta);    
-            switch (consulta)
-            {
+            
+            switch (consulta){ 
             case 1:
-                mostrarDados(usuario_digitado,endereco,senha_digitada);
+                mostrarDados(usuario_digitado,endereco,senha_digitada,email);
+                limpartela();
+            break;
+
+            case 2:
+
+            break;
+            
+            case 3:
+            mostrarProd(lista_prod);
+
             break;
             
             default:
