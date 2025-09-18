@@ -4,6 +4,8 @@
 #include <stdlib.h> 
 
 
+
+
 void limpartela(){
     sleep(5);
     getchar();
@@ -24,19 +26,25 @@ void mostrarDados(char nome[20],char endereco[40],char senha_digitada[20],char e
 
 void mostrarProd(char lista_prod[10][10]){
 
-
+    printf("====================================\n");
+    printf("Os produtos cadastrados sao \n");
     for (int i = 0; i < 10; i++) { 
         for (int j = 0; j < 10; j++) { 
             
-            printf("%c,\n", lista_prod[i][j]);
+            printf("%c", lista_prod[i][j]);        
         }
         
-}}
+     printf("\n"); 
+
+
+        
+}
+}
  
 
 int main(){
 
-    char lista_prod [10] [10] = {"Fone","Mouse","Pen Drive" , "Teclado" , "Camisa"};
+    char lista_prod [10] [10] = {"Fone","Mouse","Pen Drive" , "Teclado" , "Camisa","Lapis" , "Borracha" , "Caneta" , "Short" , "Blusa"};
     char nome[20] = "diego";
     char endereco[40] ="Cuiaba";
     char email[20] ="diego@gmail.com";
