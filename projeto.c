@@ -3,9 +3,6 @@
 #include <unistd.h>
 #include <stdlib.h> 
 
-
-
-
 void limpartela(){
     sleep(5);
     getchar();
@@ -35,10 +32,19 @@ void mostrarProd(char lista_prod[10][10]){
         }
         
      printf("\n"); 
-
-
-        
+    
 }
+}
+
+void pesquisar(char lista_prod[10][10]){
+
+    printf("Pesquisar...\n");
+    scanf("%c" , lista_prod);
+
+
+
+
+
 }
  
 
@@ -56,10 +62,6 @@ int main(){
     char senha_digitada[20];
     char usuario_digitado[20];
     
-
-   
-
-
     int i;
     int consulta;
 
@@ -76,7 +78,7 @@ int main(){
             printf("\nUsuario ou senha incorretos. Tente novamente.\n\n");
         }
 
-    } while (strcmp(usuario_correto, usuario_digitado) != 0 || strcmp(senha_correta, senha_digitada) != 0);
+     } while (strcmp(usuario_correto, usuario_digitado) != 0 || strcmp(senha_correta, senha_digitada) != 0);
 
     printf("\nBem-vindo ao BombIT %s.\n", usuario_digitado);
 
@@ -95,13 +97,21 @@ int main(){
             break;
 
             case 2:
-
             break;
             
             case 3:
             mostrarProd(lista_prod);
-
             break;
+
+            case 4:
+            
+            break;
+
+            case 5:
+            pesquisar(lista_prod);
+            break;
+
+
             
             default:
             break;
