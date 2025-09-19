@@ -1,136 +1,180 @@
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 
+// Definição da estrutura do Produto
+typedef struct {
+    char nome[50];
+    double preco;
+    int estoque;
+    int vendas;
+} Produto;
 
+// Constantes
+#define MAX_PRODUTOS 5
+#define MAX_CARRINHO 10
 
+// Variáveis Globais (simples para este exemplo)
+Produto catalogo[MAX_PRODUTOS];
+int carrinho_indices[MAX_CARRINHO];
+int carrinho_quantidades[MAX_CARRINHO];
+int num_itens_carrinho = 0;
 
-void limpartela(){
-    sleep(5);
-    getchar();
-	system("cls");
+// Protótipos das funções
+void inicializarCatalogo();
+void mostrarCatalogo();
+int buscarProdutoPorNome(const char* nome);
+void adicionarAoCarrinho();
+void mostrarCarrinho();
+void finalizarCompra();
+void mostrarRelatorioVendas();
 
-}
-  
-void mostrarDados(char nome[20],char endereco[40],char senha_digitada[20],char email[20]){
-    
-    printf("\n---------- Meus Dados ----------\n");
-    printf("Nome %s\n", nome);
-    printf("Email %s\n", email);
-    printf("Senha: %s \n", senha_digitada);
-    printf("Endereco: %s \n" , endereco);
-    printf("------------------------------\n");
-
-}
-
-void mostrarProd(char lista_prod[10][10]){
-
-    printf("====================================\n");
-    printf("Os produtos cadastrados sao \n");
-    for (int i = 0; i < 10; i++) { 
-        for (int j = 0; j < 10; j++) { 
-            
-            printf("%c", lista_prod[i][j]);        
-        }
-        
-     printf("\n"); 
-
-
-        
-}
-}
- 
-
-int main(){
-
-    char lista_prod [10] [10] = {"Fone","Mouse","Pen Drive" , "Teclado" , "Camisa","Lapis" , "Borracha" , "Caneta" , "Short" , "Blusa"};
-    char nome[20] = "diego";
-    char endereco[40] ="Cuiaba";
-    char email[20] ="diego@gmail.com";
-
-
-    char usuario_correto[10] = "admin"; 
-    char senha_correta[10] = "123";
-
-    char senha_digitada[20];
-    char usuario_digitado[20];
-    
-    int i;
-    int consulta,logar;
+int main() {
+    inicializarCatalogo();
+    int opcao;
 
     do {
+        printf("\n--- Bem-vindo a Loja C ---\n");
+        printf("1. Ver produtos\n");
+        printf("2. Adicionar produto ao carrinho\n");
+        printf("3. Ver carrinho\n");
+        printf("4. Finalizar compra\n");
+        printf("5. Ver relatorio de vendas\n");
+        printf("0. Sair\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
 
-        printf("================================\n");
-        printf("\n[1] Logar \n[2] Cadastrar\n");
-        scanf("%d" , &logar);
-
-        switch (logar){
-        case 1:
-        do
-        {
-            printf("Digite seu usuario:\n");
-        fgets(usuario_digitado, sizeof(usuario_digitado), stdin);
-        usuario_digitado[strcspn(usuario_digitado, "\n")] = '\0';
-
-        printf("Digite sua senha:\n");
-        fgets(senha_digitada, sizeof(senha_digitada), stdin);
-        senha_digitada[strcspn(senha_digitada, "\n")] = '\0';
-        
-        if (strcmp(usuario_correto, usuario_digitado) != 0 || strcmp(senha_correta, senha_digitada) != 0) {
-            printf("\nUsuario ou senha incorretos. Tente novamente.\n\n");
+        switch (opcao) {
+            case 1: mostrarCatalogo(); break;
+            case 2: adicionarAoCarrinho(); break;
+            case 3: mostrarCarrinho(); break;
+            case 4: finalizarCompra(); break;
+            case 5: mostrarRelatorioVendas(); break;
+            case 0: printf("Saindo...\n"); break;
+            default: printf("Opcao invalida!\n");
         }
-        } while (strcmp(usuario_correto, usuario_digitado) != 0 || strcmp(senha_correta, senha_digitada) != 0);
+    } while (opcao != 0);
 
-        } 
+    return 0;
+}
 
-        break;
+void inicializarCatalogo() {
+    // Produto 0
+    strcpy(catalogo[0].nome, "Mouse");
+    catalogo[0].preco = 50.00;
+    catalogo[0].estoque = 10;
+    catalogo[0].vendas = 0;
+    // Produto 1
+    strcpy(catalogo[1].nome, "Teclado");
+    catalogo[1].preco = 120.50;
+    catalogo[1].estoque = 5;
+    catalogo[1].vendas = 0;
+    // Produto 2
+    strcpy(catalogo[2].nome, "Monitor");
+    catalogo[2].preco = 750.00;
+    catalogo[2].estoque = 3;
+    catalogo[2].vendas = 0;
+    // Produto 3
+    strcpy(catalogo[3].nome, "Fone");
+    catalogo[3].preco = 80.75;
+    catalogo[3].estoque = 8;
+    catalogo[3].vendas = 0;
+    // Produto 4
+    strcpy(catalogo[4].nome, "Webcam");
+    catalogo[4].preco = 200.00;
+    catalogo[4].estoque = 4;
+    catalogo[4].vendas = 0;
+}
 
-        case 2:
-            printf("Digite");
-        break;
-        
-        
-        default:
-        return 0;
-        break;
+void mostrarCatalogo() {
+    printf("\n--- Catalogo de Produtos ---\n");
+    for (int i = 0; i < MAX_PRODUTOS; i++) {
+        printf("Nome: %-10s | Preco: R$ %6.2f | Estoque: %d\n", catalogo[i].nome, catalogo[i].preco, catalogo[i].estoque);
+    }
+}
+
+int buscarProdutoPorNome(const char* nome) {
+    for (int i = 0; i < MAX_PRODUTOS; i++) {
+        if (stricmp(catalogo[i].nome, nome) == 0) { // stricmp ignora maiúsculas/minúsculas
+            return i;
         }
+    }
+    return -1;
+}
 
+void adicionarAoCarrinho() {
+    if (num_itens_carrinho >= MAX_CARRINHO) {
+        printf("ERRO: O carrinho esta cheio!\n");
+        return;
+    }
+    char nomeBusca[50];
+    printf("Digite o nome do produto: ");
+    scanf("%s", nomeBusca);
 
-       
-    printf("\nBem-vindo ao BombIT %s.\n", usuario_digitado);
+    int indiceProduto = buscarProdutoPorNome(nomeBusca);
 
+    if (indiceProduto == -1) {
+        printf("ERRO: Produto '%s' nao encontrado!\n", nomeBusca);
+        return;
+    }
+    if (catalogo[indiceProduto].estoque <= 0) {
+        printf("ERRO: Produto '%s' fora de estoque!\n", nomeBusca);
+        return;
+    }
 
-        do{
+    int quantidade;
+    printf("Estoque disponivel: %d. Digite a quantidade: ", catalogo[indiceProduto].estoque);
+    scanf("%d", &quantidade);
 
-            printf("====================================\n");
-            printf("Digite a consulta que deseja fazer \n[1] Meus dados \n[2] Minhas compras\n[3] Lista de produto \n[4] Carrinho\n[5] Pesquisar\n[0] Sair\n");
-            printf("====================================\n");
-            scanf("%d" , &consulta);    
-            
-            switch (consulta){ 
-            case 1:
-                mostrarDados(usuario_digitado,endereco,senha_digitada,email);
-                limpartela();
-            break;
+    if (quantidade <= 0 || quantidade > catalogo[indiceProduto].estoque) {
+        printf("ERRO: Quantidade invalida!\n");
+        return;
+    }
 
-            case 2:
+    carrinho_indices[num_itens_carrinho] = indiceProduto;
+    carrinho_quantidades[num_itens_carrinho] = quantidade;
+    num_itens_carrinho++;
+    catalogo[indiceProduto].estoque -= quantidade;
+    printf("'%s' adicionado ao carrinho!\n", nomeBusca);
+}
 
-            break;
-            
-            case 3:
-            mostrarProd(lista_prod);
+void mostrarCarrinho() {
+    if (num_itens_carrinho == 0) {
+        printf("\nO carrinho esta vazio!\n");
+        return;
+    }
+    printf("\n--- Meu Carrinho ---\n");
+    double total = 0;
+    for (int i = 0; i < num_itens_carrinho; i++) {
+        int indice = carrinho_indices[i];
+        int qtde = carrinho_quantidades[i];
+        double subtotal = catalogo[indice].preco * qtde;
+        printf("%dx %-10s | Preco Unit.: R$ %6.2f | Subtotal: R$ %6.2f\n", qtde, catalogo[indice].nome, catalogo[indice].preco, subtotal);
+        total += subtotal;
+    }
+    printf("-------------------------------------------\n");
+    printf("Total a pagar: R$ %.2f\n", total);
+}
 
-            break;
-            
-            default:
-            break;
-            }
-        } while (consulta != 0);{
-            sleep(1);
-            printf("Deslogando...");
-            limpartela();
-        }
+void finalizarCompra() {
+    if (num_itens_carrinho == 0) {
+        printf("O carrinho esta vazio!\n");
+        return;
+    }
     
+    printf("\n--- Finalizando Compra ---\n");
+    for (int i = 0; i < num_itens_carrinho; i++) {
+        int indiceProduto = carrinho_indices[i];
+        int quantidade = carrinho_quantidades[i];
+        catalogo[indiceProduto].vendas += quantidade;
+    }
+    printf("Compra realizada com sucesso!\n");
+    num_itens_carrinho = 0; // Esvazia o carrinho
+}
 
+void mostrarRelatorioVendas() {
+    printf("\n--- Relatorio de Vendas ---\n");
+    for (int i = 0; i < MAX_PRODUTOS; i++) {
+        printf("Produto: %-10s | Unidades Vendidas: %d\n", catalogo[i].nome, catalogo[i].vendas);
+    }
 }
