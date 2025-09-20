@@ -189,17 +189,19 @@ int main(){
     int carrinho_quant[10];
     int tamanho_carrinho = 0;
 
-    char nome[20] = "diego";
-    char endereco[40] ="Cuiaba";
-    char email[20] ="diego@gmail.com";
-    char usuario_correto[10] = "admin"; 
-    char senha_correta[10] = "123";
+    char nome[20];
+    char endereco[40]; 
+    char email[20]; 
+    char usuario_correto[10]; 
+    char senha_correta[10];
     char senha_digitada[20];
     char usuario_digitado[20];
     int consulta;
     int tamanhoDoVetor = 10;
 
     do {
+        
+
         printf("Digite seu usuario:\n");
         fgets(usuario_digitado, sizeof(usuario_digitado), stdin);
         usuario_digitado[strcspn(usuario_digitado, "\n")] = '\0';
@@ -207,6 +209,7 @@ int main(){
         printf("Digite sua senha:\n");
         fgets(senha_digitada, sizeof(senha_digitada), stdin);
         senha_digitada[strcspn(senha_digitada, "\n")] = '\0';
+
         
         if (strcmp(usuario_correto, usuario_digitado) != 0 || strcmp(senha_correta, senha_digitada) != 0) {
             printf("\nUsuario ou senha incorretos. Tente novamente.\n\n");
@@ -224,7 +227,7 @@ int main(){
         
         switch (consulta) { 
             case 1:
-                mostrarDados(nome, endereco, senha_digitada, email);
+                mostrarDados(usuario_digitado, endereco, senha_digitada, email);
                 limpartela();
                 break;
             case 2:
